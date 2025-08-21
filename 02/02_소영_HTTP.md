@@ -16,7 +16,8 @@ HTTP는 애플리케이션 계층 프로토콜로,
 
 ## 📌 HTTP/1.0
 
-<img width="600" height="583" alt="image" src="https://github.com/user-attachments/assets/8d4fdbcd-5a54-459c-ab7a-a886f1e3e754" />
+<img width="600" height="583" alt="image" src="https://github.com/user-attachments/assets/0e91897c-d061-460b-8d37-7f960602bdf6" />
+
 
 -   **기본적으로 한 연결당 하나의 요청을 처리**
 -   → 서버로부터 파일을 가져올 때마다 TCP의 3-way handshake를 계속해서 해야 함
@@ -68,25 +69,30 @@ HTTP는 애플리케이션 계층 프로토콜로,
 ## 📌 HTTP/1.1
 
 -   매번 TCP 연결을 하지 않고,  
-    한 번 TCP 초기화 이후 \`keep-alive\` 옵션으로 여러 개의 파일을 송수신
+    하나의 TCP 연결에서 \`keep-alive\` 옵션으로 여러 개의 파일을 송수신
 -   참고) \`keep-alive\` 옵션은 원래 있었지만 1.0부터 표준화가 되어 기본 옵션으로 설정
 
-1.1에서는 한 번 TCP 3-way handshake가 일어나면
+1.1에서는 한 번 TCP 3-way handshake가 일어나면  
+그 이후에는 연결을 끊지 않고 **keep-alive** 옵션으로 재사용할 수 있습니다.
 
-그 이후에는 다시 일어나지 않고 연결이 alive하게 유지되고 있습니다.
+  
+즉, 지정한 timeout 동안 연결을 유지하면서 여러 요청을 처리할 수 있습니다.  
+또한 HTTP/1.1에서는 **파이프라이닝(pipelining)** 기능도 도입되어,  
+클라이언트가 응답을 기다리지 않고 여러 요청을 연속적으로 보낼 수 있습니다.
 
-지정한 timeout 동안 연결을 해제하지 않고 요청을 연속적으로 처리합니다.
+<img width="600" height="500" alt="image" src="https://github.com/user-attachments/assets/8ac10e02-5873-4f3f-a6ba-0f72552398fa" />
 
-하나의 연결에서 응답을 기다리지 않고 여러 요청을 연속적으로 보내 순차적으로 처리하는 방식입니다.
 
-<img width="600" height="500" alt="image" src="https://github.com/user-attachments/assets/8d225fb4-18de-42c4-abec-8e56629ff3d0" />
+다만 응답은 반드시 순서대로 도착해야 하므로,  
+첫 번째 응답이 지연되면 뒤 요청들도 지연되는 HOL Blocking 문제가 발생했습니다.
 
 ### HTTP/1.1의 문제: HOL Blocking
 
 -   HOL Blocking(Head Of Line Blocking)
 -   네트워크에서 같은 큐에 있는 패킷이 그 첫 번째 패킷에 의해 지연될 때 발생하는 성능 저하 현상
 
-<img width="600" height="209" alt="image" src="https://github.com/user-attachments/assets/2cd471a7-3919-44b2-8b0b-176afbc1c533" />
+<img width="600" height="209" alt="image" src="https://github.com/user-attachments/assets/326d81d6-e54f-4164-974f-30372f3eee8f" />
+
 
 첫 번째 파일인 \`image.jpg\`를 받는데 오래 걸리면 그 뒤에 있는 것들이 그만큼 대기하게 되여
 
@@ -130,7 +136,8 @@ HTTP는 애플리케이션 계층 프로토콜로,
 -   HTTP/1.1에서는 클라이언트가 서버에 요청을 해야 파일을 다운로드할 수 있음
 -   HTTP/2에서는 클라이언트 요청 없이 서버가 바로 리소스를 푸시할 수 있음
 
-<img width="600" height="357" alt="image" src="https://github.com/user-attachments/assets/2c5e3a83-4e26-4995-a6de-6562013e216e" />
+<img width="600" height="357" alt="image" src="https://github.com/user-attachments/assets/7bdb2ab0-072c-4559-91d2-92a678502b5a" />
+
 
 html에는 일반적으로 css나 js 파일이 포함되는데
 
@@ -139,6 +146,13 @@ HTTP/1.1까지는 css나 js 파일을 다운로드하기 위해 여러 번 요�
 HTTP/2부터는 클라이언트가 html 파일만 요청하면 그 안에 들어 잇던 css, js 파일까지
 
 클라이언트에게 줄 수 있습니다(푸시).
+
+### 특징 4. 요청 우선순위 처리
+
+-   멀티플렉싱으로 여러 요청을 동시에 보낼 수 있게 되면서, 어떤 리소스를 먼저 처리할지 결정할 필요가 생김
+-   클라이언트는 각 요청(스트림)에 **우선순위(priority)** 값을 지정할 수 있음
+-   서버는 이 정보를 참고하여 중요한 리소스(css, js)를 먼저 전송하고, 덜 중요한 리소스(이미지, 광고)는 나중에 전송
+-   → 페이지 렌더링 속도 최적화 가능
 
 ---
 
@@ -157,7 +171,8 @@ HTTP/2부터는 클라이언트가 html 파일만 요청하면 그 안에 들어
         SSL/TLS은 핸드셰이크를 통해 보안 세션을 생성하고, 이를 기반으로 상태 정보 공유
 -   SSL(Secure Socker Layer)에서 버전이 올라가며 TLS(Transport Layer Security Protocol)로 명칭 변경
 
-<img width="600" height="606" alt="image" src="https://github.com/user-attachments/assets/2d0bdc9f-adcd-4764-9920-a074348fe409" />
+<img width="600" height="606" alt="image" src="https://github.com/user-attachments/assets/b6f32ff7-3a68-4044-9817-1c5bf881f3c4" />
+
 
 클라이언트와 서버가 키를 공유하고,
 
@@ -169,19 +184,15 @@ HTTP/2부터는 클라이언트가 html 파일만 요청하면 그 안에 들어
 
 제공할 수 있는 암호화 알고리즘이면 서버에서 클라이언트로 인증서를 보내는 인증 매커니즘이 시작되고, 이후 해싱 알고리즘 등으로 암호화된 데이터 송수신이 시작됩니다.
 
-#### 사이퍼 슈트
+#### \+ 사이퍼 슈트
 
-프로토콜, AEAD 사이퍼 모드, 해싱 알고리즘이 나열된 규악
+: 프로토콜, AEAD 사이퍼 모드, 해싱 알고리즘이 나열된 규약
 
 -   \`TLS\_AES\_128\_GCM\_SHA256\`
 -   \`TLS\_AES\_256\_GCM\_SHA384\`
 -   \`TLS\_CHACHA20\_POLY1305\_SHA256\`
 -   \`TLS\_AES\_128\_CCM\_SHA256\`
 -   \`TLS\_AES\_128\_CCM\_8\_SHA256\`
-
-AEAD 사이퍼 모드
-
--   데이터 암호화 알고리즘
 
 #### 인증 매커니즘
 
@@ -197,7 +208,8 @@ AEAD 사이퍼 모드
 
 **디피-헬만 키 교환 암호화 알고리즘**
 
-<img width="399" height="99" alt="image" src="https://github.com/user-attachments/assets/09f4f438-f987-41bb-9c6d-feef6d039c59" />
+<img width="399" height="99" alt="image" src="https://github.com/user-attachments/assets/2891de1b-0b2c-45ac-a4fd-6963f2398456" />
+
 
 위 공식에서
 
@@ -213,7 +225,8 @@ g와 y와 p만 안다면 x를 구하기는 어렵다는 원리에 기반한 알�
 
 악의적인 공격자는 PSK(사전 합의된 비밀 키)가 없기 때문에 아무것도 못함
 
-<img width="600" height="828" alt="image" src="https://github.com/user-attachments/assets/5fdd039f-ede9-4d9c-8b1c-66fda5e9f3e7" />
+<img width="600" height="828" alt="image" src="https://github.com/user-attachments/assets/be64436e-5b4a-49b9-8cca-08bd11b6003a" />
+
 
 #### 해싱 알고리즘
 
@@ -227,12 +240,15 @@ g와 y와 p만 안다면 x를 구하기는 어렵다는 원리에 기반한 알�
 #### SEO에도 도움이 되는 HTTPS
 
 -   SEO: 검색엔진 최적화
--   많은 사람들 유입을 위한 방법으로 캐노니컬 설정, 메타 설정, 페이지 속도 새너, 사이트맵 관리 등등 있음
+    -   검색엔진으로 웹 사이트를 검색했을 때 그 결과를 페이지 상단에 노출시켜 많은 사람들이 볼 수 있도록 하는 방법
+-   구글에서 공식적으로 HTTPS를 쓰는 사이트가 SEO가 높다고 발표 → 서비스를 한다면 HTTPS로 하자..
+-   많은 사람들 유입을 위한 방법으로 캐노니컬 설정, 메타 설정, 페이지 속도 개선, 사이트맵 관리 등등 있음
 
 ### HTTPS 구축 방법
 
 1.  직접 CA에서 구매한 인증키를 기반으로 구축
-2.  서버 앞단의 HTPs를 제공하는 로드밸런서를 두거나 등
+2.  서버 앞단의 HTTPS를 제공하는 로드밸런서를 두기
+3.  서버 앞단에 HTTPS를 제공하는 CDN을 두기
 
 ---
 
@@ -242,24 +258,73 @@ g와 y와 p만 안다면 x를 구하기는 어렵다는 원리에 기반한 알�
 -   HTTP/3은 QUIC 계층에서 돌아가며, TCP 기반이 아닌 UDP 기반
 -   HTTP/2의 장점인 멀티플렉싱을 특징으로 가짐
 
+<img width="600" height="687" alt="image" src="https://github.com/user-attachments/assets/9aaac99e-f905-4aa1-bef4-83a4fa413a96" />
+
+
 #### 초기 연결 설정 시 지연 시간 감소 
 
 -   QUIC은 TCP를 사용하지 않기 때문에 통신을 시작할 때 3-way handshake 과정 필요없음
 -   첫 연결 설정에 1-RTT만 소요
     -   클라이언트가 서버에 어떤 신호를 한 번 주고, 서버도 거기에 응답하기만 하면 본 통신을 시작할 수 있음
--   QUIC은 순방향 오류 수정 메커니즘이 적용되어 있음
-    -   전송한 패킷이 손실되었다며 수신 측에서 에러를 검출하고 수정하는 방식
-    -   → 열악한 네트워크 환경에서도 낮은 패킷 손실률이 낮음
+-   QUIC은 순방향 오류 수정 메커니즘(FEC, Forword Error Correction)이 적용되어 있음
+    -   전송한 패킷이 손실되었다면 수신 측에서 에러를 검출하고 수정하는 방식
+    -   → 열악한 네트워크 환경에서도 패킷 손실률이 낮음
 
-<img width="600" height="499" alt="image" src="https://github.com/user-attachments/assets/fa073509-98fc-4818-8821-5d140096d419" />
+<img width="600" height="499" alt="image" src="https://github.com/user-attachments/assets/8569e758-379a-46e6-b71c-d6bf640a84f3" />
 
-#### 방안 제안초기 연결 설정 시 자연 시간 감소
 
 ---
 
 ## 🔑 요약
 
+HTTP란?
+
+-   웹에서 **클라이언트-서버 간 데이터 송수신을 위한 애플리케이션 계층 프로토콜**
+
+HTTP/1.0
+
+-   **요청 1개마다 TCP 연결**(3-way handshake 필요) → **RTT 증가**
+-   해결책: 이미지 스플리팅, 코드 압축, Base64 인코딩
+
+HTTP/1.1
+
+-   keep-alive로 **하나의 연결에서 여러 요청 처리**
+-   응답을 기다리지 않고 연속으로 요청을 보내는 파이프라이닝 가능 → 하지만 **HOL Blocking 발생**
+-   문제: 무거운 헤더(쿠키 등, 압축 X)
+
+HTTP/2
+
+-   **멀티플렉싱** → 병렬로 요청 전송 → HOL Blocking 해결
+-   헤더가 가벼워짐(HPACK-허프만 코딩)
+-   서버 푸시: 클라이언트 요청 없이 서버가 바로 리소스 푸시
+
+HTTPS
+
+-   HTTP + SSL/TLS → 암호화, 무결성, 인증 제공
+-   주요 개념
+    -   핸드셰이크: 키 교환 + 인증 + 세션 생성
+    -   사이퍼 슈트: 암호화 알고리즘 조합
+    -   Diffie-Hellman(ECDHE/DHE) → 안전한 키 교환
+    -   해시(SHA-256/384 등)
+-   SEO에도 긍정적 영향
+
+HTTP/3
+
+-   TCP 대신 **QUIC(UDP 기반) 사용**
+-   초기 연결 1-RTT → 지연 시간 단축
+-   멀티플렉싱 유지 + 순방향 오류 수정 메커니즘으로 손실 패킷 복구
+
 ## 👩‍🏫 예상 질문
+
+| HTTP와 HTTPS 차이를 설명해주세요. | HTTP는 암호화되지 않은 애플리케이션 계층의 프로토콜이고,   HTTPS는 SSL/TLS를 통해 암호화·인증·무결성을 제공하여 안전하게 HTTP 요청을 주고받을 수 있게 합니다. |
+| --- | --- |
+| HTTP/2에 대해 설명해주세요. | HTTP/2는 1보다 지연 시간을 줄이고 응답 시간을 더 빠르게 하기 위해   멀티플렉싱, 헤더 압축, 서버 푸시, 요청 우선순위 처리를 지원하는 프로토콜입니다.    |
+| 멀티플렉싱은 무엇인가요? | 여러 개의 스트림을 사용하여 송수신하는 것으로   하나의 스트림의 패킷이 손실되어도 다른 스트림에는 영향을 끼치지 않습니다.   이로 인해 병렬로 요청을 전송할 수 있습니다. |
+| 서버 푸시는 무엇인가요? | HTTP/1.1에서는 클라이언트가 서버에 요청을 해야 파일을 다운로드받을 수 있었습니다.   HTTP/2에서는 클라이언트 요청 없이 서버가 리소스를 바로 푸시할 수 있습니다.   예를 들어, 클라이언트는 html만 요청했는데 서버가 css, js까지 푸시하여 클라이언트에게 먼저 줄 수 있습니다. |
+| HTTP/1.0의 가장 큰 한계는 무엇이었나요? | HTTP/1.0은 매 요청마다 새로운 TCP 연결을 열어야 해서 지연 시간이 길고 비효율적이었습니다. |
+| HOL Blocking은 무슨 문제인가요? | 하나의 연결에서 요청들이 순차적으로 처리될 때 앞선 요청이 지연되면 뒤의 요청들도 함께 지연되는 문제입니다. |
+| SSL/TLS의 역할은 무엇인가요? | 전송 계층에서 보안을 제공하는 프로토콜입니다.   제3자가 메시지를 도청하거나 변조하지 못하도록 합니다. |
+| HTTP/3이 TCP 대신 UDP를 사용한 이유는 무엇인가요? | HTTP/3은 QUIC 프로토콜을 기반으로 동작하는데 이 QUIC 프로토콜이 UPD를 사용합니다.   TCP가 아닌 UDP를 사용하여 3-way handshake 과정을 거칠 필요 없이 빠르게 통신을 시작할 수 있습니다. |
 
 ---
 
