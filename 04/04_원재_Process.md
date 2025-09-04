@@ -8,11 +8,11 @@
 
 ## 메모리 구조
 
-![image-20250902173454414](images/image-20250902173454414.png)
+<img width="258" height="316" alt="image-20250902173454414" src="https://github.com/user-attachments/assets/3670a7b7-a16e-42b9-a810-22931bcc70e2" />
 
 - **스택**
   - 함수를 호출할 때 사용되는 메모리
-  - 매개변수, 지역변수, 복귀 주소 등이 포함된 [activation record](../../school/concepts-of-programming-languages/chapter 10.md)를 스택에 저장
+  - 매개변수, 지역변수, 복귀 주소 등이 포함된 activation record를 스택에 저장
 - **힙**
   - 실행 중에 동적으로 할당되는 메모리
   - new 키워드, malloc() 등으로 생성되는 변수들을 저장
@@ -31,7 +31,7 @@
 
 ## 프로세스 상태
 
-![image-20250902172640582](images/image-20250902172640582.png)
+<img width="578" height="235" alt="image-20250902172640582" src="https://github.com/user-attachments/assets/e24191b7-6649-425f-869c-55422293ccb7" />
 
 - **생성**(new): 프로세스가 생성 중
 - **실행**(running): CPU를 할당받아 명령어를 실행 중인 상태
@@ -57,7 +57,8 @@
 
 프로세스가 다시 스케줄링 되거나 인터럽트를 처리한 후에 원래의 프로세스의 흐름으로 돌아올 때, 실행 중이던 맥락을 복원해야 한다. 실행 중인 프로세스를 중단시키고 다른 프로세스의 맥락을 복구하는 작업을 **Context switching**이라고 한다. 현재 실행중이던 프로세스의 정보를 PCB에 저장하고 실행해야할 프로세스의 정보를 PCB에서 가져온다. 이 과정 중에는 CPU가 다른 일을 하지 못하기 때문에, context switching 시간은 오버헤드로 작용하며 하드웨어의 지원에 따라 달라진다.
 
-![image-20250903170803698](images/image-20250903170803698.png)
+<img width="528" height="442" alt="image-20250903170803698" src="https://github.com/user-attachments/assets/7700ca10-d44d-4eaf-8d6c-291d41bfa568" />
+
 
 
 
