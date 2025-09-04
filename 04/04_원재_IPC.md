@@ -4,7 +4,7 @@
 
 **IPC**(Inter-process communication)는 프로세스 간 데이터를 교환할 수 있는 기법이다. IPC는 크게 공유 메모리, 메세지 전달 2가지 방식으로 나뉜다.
 
-![image-20250904024606140](images/image-20250904024606140.png)
+<img width="609" height="398" alt="image-20250904024606140" src="https://github.com/user-attachments/assets/69a252e7-132e-4579-89aa-eee27efc8929" />
 
 ## Shared memory
 
@@ -25,7 +25,8 @@
 
 ### Message queue
 
-![image-20250904033906191](images/image-20250904033906191.png)
+<img width="511" height="268" alt="image-20250904033906191" src="https://github.com/user-attachments/assets/f0874700-0b91-4a24-9569-4d8db2d16c1a" />
+
 
 - 큐를 통해 메세지 단위로 통신
 - 메세지의 형태는 통신하는 프로세스간에 미리 정해두어야 함
@@ -43,7 +44,8 @@
 
 ### Pipe
 
-![image-20250904033834830](images/image-20250904033834830.png)
+<img width="508" height="265" alt="image-20250904033834830" src="https://github.com/user-attachments/assets/81bab7e0-c9d0-48b3-8ad4-b505fa8ebd3f" />
+
 
 - 보내진 순서대로 처리하는 FIFO 방식
 - 익명 파이프와 명명된 파이프로 나뉨
@@ -61,6 +63,7 @@
     - UNIX FIFO에서는 반이중, 윈도우에서는 전이중 통신 지원
   - 여러 프로세스에서 사용 가능
   - 프로세스가 종료되더라도 계속 존재함
+
 
 
 
