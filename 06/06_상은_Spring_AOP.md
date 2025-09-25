@@ -120,5 +120,3 @@ https://tech.kakaopay.com/post/overcome-spring-aop-with-kotlin/
 https://hanjo8813.github.io/spring/6/
 
 https://rnrwk0502.tistory.com/62#4._AspectJ_vs_Spring_AOP
-
-[https://jihyunhillcs.tistory.com/34#AOP(Aspect_Oriented_Programming)란_무엇일까](https://jihyunhillcs.tistory.com/34#AOP(Aspect_Oriented_Programming)%EB%9E%80_%EB%AC%B4%EC%97%87%EC%9D%BC%EA%B9%8C)?
