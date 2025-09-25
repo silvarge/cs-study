@@ -104,3 +104,21 @@ AOP를 이용하여, 애플리케이션의 특정 조인 포인트에 Aspect를 
     ⇒ 결론적으로는 CGLIB 프록시 객체 생성이 더 좋다고 한다. 하지만 그만큼의 위험성도 있겠지?
     
     → 이 내용은 조금 더 살펴봐야 할 것 같다.
+
+# 참고자료
+
+https://github.com/cs-wiki/cs-wiki/issues/9
+
+https://njunju77.tistory.com/117 ← 이건 좀 더 읽어보면 좋을 듯
+
+https://curiousjinan.tistory.com/entry/spring-aop-understand
+
+https://tech.kakaopay.com/post/overcome-spring-aop-with-kotlin/
+
+[https://jihyunhillcs.tistory.com/34#AOP(Aspect_Oriented_Programming)란_무엇일까](https://jihyunhillcs.tistory.com/34#AOP(Aspect_Oriented_Programming)%EB%9E%80_%EB%AC%B4%EC%97%87%EC%9D%BC%EA%B9%8C)?
+
+https://hanjo8813.github.io/spring/6/
+
+https://rnrwk0502.tistory.com/62#4._AspectJ_vs_Spring_AOP
+
+[https://jihyunhillcs.tistory.com/34#AOP(Aspect_Oriented_Programming)란_무엇일까](https://jihyunhillcs.tistory.com/34#AOP(Aspect_Oriented_Programming)%EB%9E%80_%EB%AC%B4%EC%97%87%EC%9D%BC%EA%B9%8C)?
