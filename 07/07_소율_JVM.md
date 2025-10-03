@@ -20,3 +20,7 @@
 <img width="369" height="484" alt="스크린샷 2025-10-03 오전 9 20 35" src="https://github.com/user-attachments/assets/7883ea18-a2d4-4579-bdf2-50b837c11d5c" />
 
 <img width="860" height="148" alt="스크린샷 2025-10-03 오전 9 20 49" src="https://github.com/user-attachments/assets/3c611218-85c6-42e5-b225-c30b92a66a7e" />
+
+
+## 참고자료
+https://inpa.tistory.com/entry/JAVA-%E2%98%95-JVM-%EB%82%B4%EB%B6%80-%EA%B5%AC%EC%A1%B0-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%98%81%EC%97%AD-%EC%8B%AC%ED%99%94%ED%8E%B8
